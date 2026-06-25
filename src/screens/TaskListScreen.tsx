@@ -1,4 +1,5 @@
 import Filter from "@/components/Filter";
+import Header from "@/components/Header";
 import TaskCard from "@/components/TaskCard";
 import { Task } from "@/types/task";
 import React, { useEffect, useState } from "react";
@@ -47,6 +48,7 @@ export default function TaskListScreen() {
 
   return (
     <View style={styles.container}>
+      <Header />
       <Filter
         search={search}
         setSearch={setSearch}
