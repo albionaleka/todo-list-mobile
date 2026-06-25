@@ -1,3 +1,4 @@
+import Filter from "@/components/Filter";
 import TaskCard from "@/components/TaskCard";
 import { Task } from "@/types/task";
 import React, { useEffect, useState } from "react";
@@ -46,6 +47,12 @@ export default function TaskListScreen() {
 
   return (
     <View style={styles.container}>
+      <Filter
+        search={search}
+        setSearch={setSearch}
+        filter={filter}
+        setFilter={setFilter}
+      />
       <FlatList
         data={filteredTasks}
         keyExtractor={(item) => item.id}
