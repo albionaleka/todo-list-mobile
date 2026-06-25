@@ -1,9 +1,7 @@
-export type TaskStatus = "completed" | "pending";
-
-export type Task = {
+export interface Task {
   id: string;
   title: string;
   description: string;
-  status: TaskStatus;
+  status: boolean;
   createdAt: string;
-};
+}
