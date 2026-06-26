@@ -7,6 +7,7 @@ type TaskCardProps = {
   onToggle: () => void;
   onDelete: () => void;
   onPress: () => void;
+  onEdit: () => void;
 };
 
 export default function TaskCard({
@@ -14,6 +15,7 @@ export default function TaskCard({
   onToggle,
   onDelete,
   onPress,
+  onEdit,
 }: TaskCardProps) {
   return (
     <TouchableOpacity activeOpacity={0.7} onPress={onPress} style={styles.card}>
@@ -49,6 +51,10 @@ export default function TaskCard({
           >
             {task.status ? "Mark Incomplete" : "Complete Task"}
           </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={onEdit} style={styles.editButton}>
+          <Text style={styles.editText}>Edit</Text>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={onDelete} style={styles.deleteButton}>
@@ -129,6 +135,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  editButton: {
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    borderRadius: 10,
+    backgroundColor: "#f8fafc",
+    borderWidth: 1,
+    borderColor: "#cbd5e1",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   actionText: {
     fontSize: 14,
     fontWeight: "600",
@@ -141,6 +157,11 @@ const styles = StyleSheet.create({
   },
   deleteText: {
     color: "#e11d48",
+    fontSize: 14,
+    fontWeight: "600",
+  },
+  editText: {
+    color: "#4f46e5",
     fontSize: 14,
     fontWeight: "600",
   },

@@ -46,6 +46,18 @@ export default function TaskListScreen() {
     });
   };
 
+  const handleEdit = (item: Task) => {
+    router.push({
+      pathname: "/edit/[id]" as const,
+      params: {
+        id: item.id,
+        title: item.title,
+        description: item.description || "",
+        status: String(item.status),
+        createdAt: item.createdAt,
+      },
+    });
+  };
   const renderEmptyState = () => (
     <View style={styles.emptyContainer}>
       <Text style={styles.emptySubtitle}>
@@ -84,6 +96,7 @@ export default function TaskListScreen() {
               onToggle={() => toggleTask(item.id)}
               onDelete={() => deleteTask(item.id)}
               onPress={() => handlePress(item)}
+              onEdit={() => handleEdit(item)}
             />
           )}
         />

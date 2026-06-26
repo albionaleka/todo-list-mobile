@@ -1,7 +1,6 @@
 import { useTasks } from "@/context/TaskContext";
-import { Task } from "@/types/task";
-import { router } from "expo-router";
-import React, { useState } from "react";
+import { router, useLocalSearchParams } from "expo-router";
+import React, { useEffect, useState } from "react";
 import {
   Alert,
   StyleSheet,
@@ -11,37 +10,51 @@ import {
   View,
 } from "react-native";
 
-export default function AddTaskScreen() {
-  const { addTask } = useTasks();
+export default function EditTaskScreen() {
+  const { id } = useLocalSearchParams();
+  const { getTask, updateTask } = useTasks();
+
+  const task = getTask(id as string);
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
-  const handleAddTask = () => {
+  useEffect(() => {
+    if (task) {
+      setTitle(task.title);
+      setDescription(task.description);
+    }
+  }, [task]);
+
+  const handleUpdate = () => {
     if (!title.trim()) {
       Alert.alert("Validation", "Title is required");
       return;
     }
 
-    const newTask: Task = {
-      id: Date.now().toString(),
+    updateTask(id as string, {
       title: title.trim(),
       description: description.trim(),
-      status: false,
-      createdAt: new Date().toISOString(),
-    };
+    });
 
-    addTask(newTask);
-
+    // Reset local state before navigating back
     setTitle("");
     setDescription("");
 
     router.back();
   };
 
+  if (!task) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.title}>Task not found</Text>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Add New Task</Text>
+      <Text style={styles.title}>Edit Task</Text>
 
       <TextInput
         placeholder="Task title"
@@ -69,10 +82,10 @@ export default function AddTaskScreen() {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={handleAddTask}
+          onPress={handleUpdate}
           style={[styles.button, styles.submitButton]}
         >
-          <Text style={styles.buttonText}>Create</Text>
+          <Text style={styles.buttonText}>Update</Text>
         </TouchableOpacity>
       </View>
     </View>
