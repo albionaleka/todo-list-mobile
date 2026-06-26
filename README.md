@@ -31,7 +31,7 @@ A simple task management app built with **React Native (Expo) + TypeScript**, fe
 
 ```bash
 git clone https://github.com/your-username/task-manager-app.git
-cd task-manager-app
+cd todo-list-mobile
 ```
 
 ### 2. Install dependencies
