@@ -19,12 +19,49 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }) => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const fetchTasks = async () => {
+    try {
+      const response = await fetch(
+        "https://jsonplaceholder.typicode.com/todos?_limit=5",
+      );
+
+      const data = await response.json();
+
+      return data.map((item: any) => ({
+        id: String(item.id),
+        title: item.title,
+        description: "Imported task",
+        status: item.completed,
+        createdAt: new Date().toISOString(),
+      }));
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+  };
+
   useEffect(() => {
-    (async () => {
-      const data = await loadTasks();
-      setTasks(data);
-      setLoading(false);
-    })();
+    const load = async () => {
+      try {
+        const local = await loadTasks();
+
+        if (local.length > 0) {
+          setTasks(local);
+        } else {
+          const apiTasks = await fetchTasks();
+
+          setTasks(apiTasks);
+
+          await saveTasks(apiTasks);
+        }
+      } catch (error) {
+        console.error("Failed loading tasks:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    load();
   }, []);
 
   const persist = async (newTasks: Task[]) => {
