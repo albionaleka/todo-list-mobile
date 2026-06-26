@@ -35,7 +35,7 @@ export default function Filter({
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 0,
+    paddingHorizontal: 20,
     paddingTop: 16,
   },
 

@@ -1,4 +1,5 @@
-import TaskListScreen from "@/screens/TaskListScreen";
+import TaskListScreen from "@/components/TaskListScreen";
+import { router } from "expo-router";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
@@ -9,7 +10,7 @@ export default function Index() {
       <TouchableOpacity
         style={styles.fab}
         onPress={() => {
-          //TODO: Create AddTask Screen and navigate to it
+          router.push("/add-task");
         }}
         activeOpacity={0.8}
       >
