@@ -1,47 +1,87 @@
-import TaskListScreen from "@/screens/TaskListScreen";
+import { router } from "expo-router";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-export default function Index() {
+export default function StartScreen() {
   return (
-    <View style={{ height: "100%" }}>
-      <TaskListScreen />
-      <TouchableOpacity
-        style={styles.fab}
-        onPress={() => {
-          //TODO: Create AddTask Screen and navigate to it
-        }}
-        activeOpacity={0.8}
-      >
-        <Text style={styles.fabText}>+</Text>
-      </TouchableOpacity>
+    <View style={styles.container}>
+      <View style={styles.welcomeBlock}>
+        <Text style={styles.greeting}>Hello there!</Text>
+        <Text style={styles.tagline}>
+          Stay organized and finish your goals today
+        </Text>
+      </View>
+
+      <View style={styles.illustrationPlaceholder}>
+        <Text style={styles.emoji}>📝</Text>
+      </View>
+
+      <View style={styles.actionHub}>
+        <TouchableOpacity
+          style={styles.primaryButton}
+          onPress={() => router.push("/tasks")}
+        >
+          <Text style={styles.primaryButtonText}>View My Tasks</Text>
+        </TouchableOpacity>
+
+        <Text style={styles.statsFooter}>3 items remaining for today</Text>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  fab: {
-    position: "absolute",
-    bottom: 20,
-    right: 10,
-    backgroundColor: "#5B67F1",
-    width: 48,
-    height: 48,
-    borderRadius: 30,
-    justifyContent: "center",
-    alignItems: "center",
-
-    shadowColor: "#5B67F1",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 6,
-
-    elevation: 5,
+  container: {
+    flex: 1,
+    backgroundColor: "#ffffff",
+    padding: 24,
+    justifyContent: "space-between",
   },
-  fabText: {
-    color: "#FFFFFF",
-    fontSize: 28,
-    fontWeight: "bold",
-    marginTop: -5,
+  welcomeBlock: {
+    marginTop: 80,
+  },
+  greeting: {
+    fontSize: 32,
+    fontWeight: "800",
+    color: "#0f172a",
+    marginBottom: 8,
+  },
+  tagline: {
+    fontSize: 16,
+    color: "#64748b",
+    lineHeight: 24,
+  },
+  illustrationPlaceholder: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  emoji: {
+    fontSize: 80,
+  },
+  actionHub: {
+    marginBottom: 40,
+    gap: 16,
+  },
+  primaryButton: {
+    backgroundColor: "#4f46e5",
+    paddingVertical: 16,
+    borderRadius: 16,
+    alignItems: "center",
+    shadowColor: "#4f46e5",
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.15,
+    shadowRadius: 16,
+    elevation: 4,
+  },
+  primaryButtonText: {
+    color: "#ffffff",
+    fontSize: 16,
+    fontWeight: "700",
+  },
+  statsFooter: {
+    textAlign: "center",
+    fontSize: 13,
+    color: "#94a3b8",
+    fontWeight: "500",
   },
 });
