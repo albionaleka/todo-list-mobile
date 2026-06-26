@@ -1,14 +1,24 @@
+import { useTasks } from "@/context/TaskContext";
 import { router } from "expo-router";
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 export default function StartScreen() {
+  const { tasks, loading } = useTasks();
+  const remainingCount = tasks.filter((t) => !t.status).length;
+
   return (
     <View style={styles.container}>
       <View style={styles.welcomeBlock}>
         <Text style={styles.greeting}>Hello there!</Text>
         <Text style={styles.tagline}>
-          Stay organized and finish your goals today
+          Ready to manage your day effectively?
         </Text>
       </View>
 
@@ -24,7 +34,14 @@ export default function StartScreen() {
           <Text style={styles.primaryButtonText}>View My Tasks</Text>
         </TouchableOpacity>
 
-        <Text style={styles.statsFooter}>3 items remaining for today</Text>
+        {loading ? (
+          <ActivityIndicator size="small" color="#94a3b8" />
+        ) : (
+          <Text style={styles.statsFooter}>
+            {remainingCount} {remainingCount === 1 ? "item" : "items"} remaining
+            for today
+          </Text>
+        )}
       </View>
     </View>
   );
@@ -61,6 +78,8 @@ const styles = StyleSheet.create({
   actionHub: {
     marginBottom: 40,
     gap: 16,
+    minHeight: 90,
+    justifyContent: "center",
   },
   primaryButton: {
     backgroundColor: "#4f46e5",
@@ -83,5 +102,6 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: "#94a3b8",
     fontWeight: "500",
+    height: 20,
   },
 });
