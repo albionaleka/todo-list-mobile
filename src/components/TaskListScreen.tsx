@@ -4,10 +4,16 @@ import { useTasks } from "@/context/TaskContext";
 import { Task } from "@/types/task";
 import { router } from "expo-router";
 import React, { useState } from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 
 export default function TaskListScreen() {
-  const { tasks, deleteTask, toggleTask } = useTasks();
+  const { tasks, deleteTask, toggleTask, loading } = useTasks();
 
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<"all" | "completed" | "pending">("all");
@@ -33,12 +39,24 @@ export default function TaskListScreen() {
       params: {
         id: item.id,
         title: item.title,
-        description: item.description,
+        description: item.description || "",
         status: String(item.status),
         createdAt: item.createdAt,
       },
     });
   };
+
+  const renderEmptyState = () => (
+    <View style={styles.emptyContainer}>
+      <Text style={styles.emptyIcon}>🏖️</Text>
+      <Text style={styles.emptyTitle}>Clear skies ahead!</Text>
+      <Text style={styles.emptySubtitle}>
+        {search || filter !== "all"
+          ? "No tasks match your current filter settings."
+          : "You don't have any tasks scheduled. Tap add to begin!"}
+      </Text>
+    </View>
+  );
 
   return (
     <View style={styles.container}>
@@ -51,18 +69,27 @@ export default function TaskListScreen() {
         setFilter={setFilter}
       />
 
-      <FlatList
-        data={filteredTasks}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <TaskCard
-            task={item}
-            onToggle={() => toggleTask(item.id)}
-            onDelete={() => deleteTask(item.id)}
-            onPress={() => handlePress(item)}
-          />
-        )}
-      />
+      {loading ? (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#4f46e5" />
+        </View>
+      ) : (
+        <FlatList
+          data={filteredTasks}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={styles.listContent}
+          showsVerticalScrollIndicator={false}
+          ListEmptyComponent={renderEmptyState}
+          renderItem={({ item }) => (
+            <TaskCard
+              task={item}
+              onToggle={() => toggleTask(item.id)}
+              onDelete={() => deleteTask(item.id)}
+              onPress={() => handlePress(item)}
+            />
+          )}
+        />
+      )}
     </View>
   );
 }
@@ -70,17 +97,47 @@ export default function TaskListScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    backgroundColor: "#f8fafc",
   },
   header: {
-    fontSize: 24,
-    fontWeight: "bold",
+    fontSize: 28,
+    fontWeight: "800",
+    color: "#0f172a",
     marginBottom: 16,
-    marginTop: 20,
+    marginTop: 60,
+    paddingHorizontal: 16,
   },
-  taskItem: {
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  listContent: {
     padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
+    paddingBottom: 40,
+    flexGrow: 1,
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 32,
+    marginTop: 40,
+  },
+  emptyIcon: {
+    fontSize: 48,
+    marginBottom: 16,
+  },
+  emptyTitle: {
+    fontSize: 18,
+    fontWeight: "700",
+    color: "#334155",
+    marginBottom: 6,
+  },
+  emptySubtitle: {
+    fontSize: 14,
+    color: "#64748b",
+    textAlign: "center",
+    lineHeight: 20,
   },
 });
