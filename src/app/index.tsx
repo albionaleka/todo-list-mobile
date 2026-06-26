@@ -1,18 +1,8 @@
-import { useTasks } from "@/context/TaskContext";
 import { router } from "expo-router";
 import React from "react";
-import {
-  ActivityIndicator,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function StartScreen() {
-  const { tasks, loading } = useTasks();
-  const remainingCount = tasks.filter((t) => !t.status).length;
-
   return (
     <View style={styles.container}>
       <View style={styles.welcomeBlock}>
@@ -33,15 +23,6 @@ export default function StartScreen() {
         >
           <Text style={styles.primaryButtonText}>View My Tasks</Text>
         </TouchableOpacity>
-
-        {loading ? (
-          <ActivityIndicator size="small" color="#94a3b8" />
-        ) : (
-          <Text style={styles.statsFooter}>
-            {remainingCount} {remainingCount === 1 ? "item" : "items"} remaining
-            for today
-          </Text>
-        )}
       </View>
     </View>
   );

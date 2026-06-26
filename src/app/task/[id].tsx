@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
   backButton: {
     marginBottom: 20,
     paddingVertical: 8,
+    marginTop: 60,
   },
   backButtonText: {
     color: "#4f46e5",

@@ -48,8 +48,6 @@ export default function TaskListScreen() {
 
   const renderEmptyState = () => (
     <View style={styles.emptyContainer}>
-      <Text style={styles.emptyIcon}>🏖️</Text>
-      <Text style={styles.emptyTitle}>Clear skies ahead!</Text>
       <Text style={styles.emptySubtitle}>
         {search || filter !== "all"
           ? "No tasks match your current filter settings."
