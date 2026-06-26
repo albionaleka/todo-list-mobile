@@ -88,3 +88,11 @@ Data is automatically persisted using **AsyncStorage**.
 - Public API used to preload initial data
 - Input validation for task creation and updates
 - Navigation handled via Expo Router dynamic routes
+
+## Screenshots from the App
+
+![alt text](image.png)
+![alt text](image-1.png)
+![alt text](image-2.png)
+![alt text](image-3.png)
+![alt text](image-4.png)
