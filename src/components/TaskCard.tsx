@@ -16,7 +16,11 @@ export default function TaskCard({
   onPress,
 }: TaskCardProps) {
   return (
-    <TouchableOpacity activeOpacity={0.7} onPress={onPress} style={styles.card}>
+    <TouchableOpacity
+      activeOpacity={0.7}
+      onPress={() => onPress()}
+      style={styles.card}
+    >
       <View style={styles.contentContainer}>
         <Text
           numberOfLines={1}
