@@ -3,7 +3,6 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 type Props = {
   selected: "all" | "completed" | "pending";
-
   onSelect: (value: "all" | "completed" | "pending") => void;
 };
 
@@ -19,7 +18,7 @@ export default function StatusFilter({ selected, onSelect }: Props) {
           style={[styles.button, selected === item && styles.active]}
         >
           <Text style={[styles.text, selected === item && styles.activeText]}>
-            {item}
+            {item.at(0)?.toUpperCase() + item.slice(1)}
           </Text>
         </TouchableOpacity>
       ))}
@@ -42,7 +41,7 @@ const styles = StyleSheet.create({
   },
 
   active: {
-    backgroundColor: "#2563EB",
+    backgroundColor: "#4f46e5",
   },
 
   text: {

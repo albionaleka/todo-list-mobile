@@ -1,35 +1,16 @@
 import Filter from "@/components/Filter";
 import TaskCard from "@/components/TaskCard";
+import { useTasks } from "@/context/TaskContext";
 import { Task } from "@/types/task";
 import { router } from "expo-router";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 
-const initialTasks: Task[] = [
-  {
-    id: "1",
-    title: "Buy groceries",
-    description: "Milk, eggs, bread",
-    status: true,
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: "2",
-    title: "Finish Task",
-    description: "Complete the React Native project",
-    status: false,
-    createdAt: new Date().toISOString(),
-  },
-];
-
 export default function TaskListScreen() {
-  const [tasks, setTasks] = useState<Task[]>(initialTasks);
+  const { tasks, deleteTask, toggleTask } = useTasks();
+
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<"all" | "completed" | "pending">("all");
-
-  useEffect(() => {
-    setTasks(initialTasks);
-  }, []);
 
   const filteredTasks = tasks.filter((task) => {
     const matchesSearch = task.title
@@ -69,29 +50,16 @@ export default function TaskListScreen() {
         filter={filter}
         setFilter={setFilter}
       />
+
       <FlatList
         data={filteredTasks}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <TaskCard
             task={item}
-            onToggle={() => {
-              setTasks((prevTasks) =>
-                prevTasks.map((task) =>
-                  task.id === item.id
-                    ? { ...task, status: !task.status }
-                    : task,
-                ),
-              );
-            }}
-            onDelete={() => {
-              setTasks((prevTasks) =>
-                prevTasks.filter((task) => task.id !== item.id),
-              );
-            }}
-            onPress={() => {
-              handlePress(item);
-            }}
+            onToggle={() => toggleTask(item.id)}
+            onDelete={() => deleteTask(item.id)}
+            onPress={() => handlePress(item)}
           />
         )}
       />
